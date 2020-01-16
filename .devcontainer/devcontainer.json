@@ -9,7 +9,7 @@
 	// update Dockerfile with your user's UID/GID if not 1000.
 	"runArgs": ["-u", "vscode",
 		"-e",
-		 "HOME=/home/vscode",
+		"HOME=/home/vscode",
 		"--net",
 		"host",
 		"-e",

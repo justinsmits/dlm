@@ -23,16 +23,18 @@ RUN apt-get update \
     && apt-get install -y sudo \
     # Install x-11 tools
     && apt-get install -qqy x11-apps \
-
-    && sudo apt -y install python3-pip python3-tk \
+    # Install python pip
+    && sudo apt install -y python3 python3-pip \
+    # Install science packages
+    && sudo DEBIAN_FRONTEND='noninteractive' apt install -qqy --no-install-recommends python3-numpy python3-matplotlib python3-scipy python3-tk \
     #
     # Install other tools
-    && pip3 --disable-pip-version-check --no-cache-dir install pylint numpy matplotlib scipy \
+    && pip3 --disable-pip-version-check --no-cache-dir install pylint \
     #
     # Create a non-root user to use if preferred - see https://aka.ms/vscode-remote/containers/non-root-user.
     && groupadd --gid ${USER_GID} ${USERNAME} \
     && useradd -s /bin/bash --uid ${USER_UID} --gid ${USER_GID} -m ${USERNAME} \
-
+    # Update directory rights
     && echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} \
     && chmod 0440 /etc/sudoers.d/${USERNAME} \
     && mkdir -p /home/${USERNAME} \
